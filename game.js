@@ -34,35 +34,10 @@ let enemyBullets = [];
 // 爆炸效果数组
 let explosions = [];
 
-// 创建开始按钮
-const startButton = document.createElement('button');
-startButton.textContent = '开始游戏';
-startButton.style.position = 'absolute';
-startButton.style.left = '50%';
-startButton.style.top = '50%';
-startButton.style.transform = 'translate(-50%, -50%)';
-startButton.style.padding = '15px 30px';
-startButton.style.fontSize = '20px';
-startButton.style.cursor = 'pointer';
-startButton.style.backgroundColor = '#1E90FF';
-startButton.style.color = 'white';
-startButton.style.border = 'none';
-startButton.style.borderRadius = '5px';
-document.querySelector('.game-container').appendChild(startButton);
-
-// 点击开始按钮
-startButton.addEventListener('click', () => {
-    resetGame();
-});
-
 // 控制玩家移动
 let keys = {};
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
-    // R键：重开
-    if (e.key === 'r' || e.key === 'R') {
-        resetGame();
-    }
     // P键：暂停/继续
     if (e.key === 'p' || e.key === 'P') {
         if (gameStarted && !gameOver) {
@@ -77,6 +52,22 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('keyup', (e) => {
     keys[e.key] = false;
 });
+
+// 重置游戏
+function resetGame() {
+    score = 0;
+    gameOver = false;
+    isPaused = false;
+    showTutorial = false;
+    gameStarted = true;
+    bullets = [];
+    enemies = [];
+    enemyBullets = [];
+    explosions = [];
+    player.x = canvas.width / 2;
+    player.y = canvas.height - 50;
+    scoreElement.textContent = score;
+}
 
 // 自动射击
 let lastShot = 0;
@@ -199,42 +190,14 @@ function createCssExplosion(x, y) {
     setTimeout(() => container.remove(), 900);
 }
 
-// 重置游戏
-function resetGame() {
-    score = 0;
-    gameOver = false;
-    isPaused = false;
-    showTutorial = false;
-    gameStarted = true;
-    bullets = [];
-    enemies = [];
-    enemyBullets = [];
-    explosions = [];
-    player.x = canvas.width / 2;
-    player.y = canvas.height - 50;
-    scoreElement.textContent = score;
-    startButton.style.display = 'none';
-}
-
 // 游戏主循环
 function gameLoop(timestamp) {
     if (!gameStarted) {
-        startButton.style.display = 'block';
-        // 显示开始界面
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '36px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('太空战机', canvas.width/2, canvas.height/2 - 100);
-        ctx.font = '24px Arial';
-        ctx.fillText('按R键或点击开始按钮开始游戏', canvas.width/2, canvas.height/2 - 50);
-        ctx.fillText(`最高分：${highScore}`, canvas.width/2, canvas.height/2);
-        requestAnimationFrame(gameLoop);
-        return;
+        // 自动开始游戏
+        resetGame();
+        gameStarted = true;
     }
     if (gameOver) {
-        startButton.style.display = 'block';
         // 显示游戏结束画面
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -245,7 +208,12 @@ function gameLoop(timestamp) {
         ctx.fillText(`最终得分：${score}`, canvas.width/2, canvas.height/2);
         ctx.fillText(`最高分：${highScore}`, canvas.width/2, canvas.height/2 + 50);
         ctx.font = '24px Arial';
-        ctx.fillText('按R键或点击开始按钮重新开始', canvas.width/2, canvas.height/2 + 100);
+        ctx.fillText('0.1秒后自动重新开始...', canvas.width/2, canvas.height/2 + 100);
+        
+        // 0.1秒后自动刷新页面
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
         return;
     }
 
