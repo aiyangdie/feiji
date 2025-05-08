@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.game-container {
+    position: relative;
+}
+
+#gameCanvas {
+    border: 2px solid #333;
+    background-color: #000;
+}
+
+.score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.side-panel {
+    position: absolute;
+    top: 50%;
+    width: 220px;
+    color: #fff;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #f33;
+    border-radius: 10px;
+    padding: 24px 18px 24px 18px;
+    font-size: 18px;
+    transform: translateY(-50%);
+    z-index: 10;
+    box-shadow: 0 0 10px #000;
+}
+.left-panel {
+    left: 30px;
+    text-align: left;
+}
+.right-panel {
+    right: 30px;
+    text-align: left;
+}
+.side-panel h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #ffb300;
+}
+.side-panel ul {
+    list-style: disc inside;
+    margin-left: 0;
+}
+.side-panel li {
+    margin-bottom: 8px;
+}
+
+/* 开始按钮样式提升z-index */
+.game-container button {
+    z-index: 100;
+    transition: background 0.2s, transform 0.2s;
+}
+.game-container button:hover {
+    background: #3399ff;
+    transform: scale(1.08);
+}
+
+/* side-panel 响应式优化 */
+@media (max-width: 1200px) {
+    .side-panel {
+        width: 120px;
+        font-size: 13px;
+        padding: 10px 6px;
+    }
+    .side-panel h3 {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+}
+@media (max-width: 900px) {
+    .side-panel {
+        display: none;
+    }
+}
+
+/* 分数浮动提示 */
+.score-float {
+    position: absolute;
+    color: #ffeb3b;
+    font-size: 22px;
+    font-weight: bold;
+    pointer-events: none;
+    text-shadow: 1px 1px 6px #000, 0 0 10px #fff;
+    opacity: 0.9;
+    animation: floatUp 1s ease-out forwards;
+    z-index: 99;
+}
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-40px); }
+}
+
+/* 飞机和敌机阴影 */
+.plane-shadow {
+    filter: drop-shadow(0 0 8px #1e90ff);
+}
+.enemy-shadow {
+    filter: drop-shadow(0 0 8px #ff4500);
+}
+
+.css-particle {
+    position: absolute;
+    left: 28px;
+    top: 28px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 0.85;
+    animation: particle-explode 0.9s cubic-bezier(.2,.7,.4,1) forwards;
+}
+@keyframes particle-explode {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    70% { opacity: 1; }
+    100% {
+        transform: translate(calc(cos(var(--angle)) * var(--dist)), calc(sin(var(--angle)) * var(--dist))) scale(0.5);
+        opacity: 0;
+    }
+} 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太空战机</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="io/favicon.ico">
+</head>
+<body>
+    <div class="side-panel left-panel">
+        <h3>操作说明</h3>
+        <ul>
+            <li>↑ 或 W：上移</li>
+            <li>↓ 或 S：下移</li>
+            <li>← 或 A：左移</li>
+            <li>→ 或 D：右移</li>
+            <li>空格：开始/暂停/继续</li>
+        </ul>
+    </div>
+    <div class="game-container">
+        <div class="score" id="score-bar">分数: <span id="score">0</span></div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <div class="side-panel right-panel">
+        <h3>功能键</h3>
+        <ul>
+            <li>ESC：关闭教程</li>
+            <li>P：暂停/继续</li>
+            <li>R：重新开始</li>
+            <li>鼠标点击"开始游戏"按钮</li>
+        </ul>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html> 
