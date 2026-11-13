@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/covers/15-feiji.jpg" alt="feiji 项目封面" width="100%"></p>
+
 <div align="center">
 
 # 🚀 太空战机
